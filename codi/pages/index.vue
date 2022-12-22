@@ -4,9 +4,13 @@
     <v-row>
       <v-col cols="12" v-for="todoVue in todosVue">
           <div>{{todoVue.todoVue}}</div>
-          <div v-if="completed">feta</div>
+          <div v-if="todoVue.completed">feta</div>
           <div v-else>per fer</div>
-          <div>{{todoVue.userId}}</div>
+          <div>{{donamElNom(todoVue.userId)}}</div>
+        
+      </v-col>
+      <v-col cols="12" sm="6">
+        <div>{{usersVue}}</div>
       </v-col>
     </v-row>
    
@@ -18,7 +22,8 @@
        
   export default{
       mounted(){
-        this.descarregarTodos()
+        this.descarregarTodos(),
+        this.descarregarUsuaris()
       },
       methods:{
         descarregarTodos(){
@@ -31,12 +36,31 @@
                   .catch(function(err){
                     console.log(err)
                   })
+              },
+        descarregarUsuaris(){
+          axios.get('https://dummyjson.com/users')
+                  .then(respostaUsers => {
+                    console.log("la lista de users", respostaUsers)
+                    this.usersVue = respostaUsers.data.users
+                    this.respostaVue = respostaUsers
+                  })
+                  .catch(function(err){
+                    console.log(err)
+                  })
+              },
+        donamElNom(userId){
+              if(this.usuaris){
+                this.usuaris.forEach(usuari=>
+                )
               }
+            }
           },
       data(){
         return {
           todosVue :null,
-          respostaVue: null
+          respostaVue: null,
+          usersVue: null,
+          respostaUsers:null
       }
     }
   }
